@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StopWatch</title>
+</head>
+
+<style>
+    *,
+    ::before,
+    ::after{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body{
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 70vh;
+        background-color: coral;
+        color: white;
+    }
+    .container{
+        text-align: center;
+    }
+    .container h1{
+        text-transform: uppercase;
+        line-height: 2.5;
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+    }
+    .container .time span{
+        font-size: 2.5rem;
+    }
+    .container .btn-groups{
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+    .container .btn-groups .btn{
+        padding: .5rem 1rem;
+        border: 1px solid white;
+        background-color: transparent;
+        font-family: inherit;
+        font-size: .9rem;
+        cursor: pointer;
+        color: inherit;
+    }
+
+
+</style>
+
+<body>
+    <section>
+        <div class="container">
+            <h1>
+                stopwatch 
+                <br>
+                vanilla javascript stopwatch
+            </h1>
+            <p class="time">
+                <span class="minutes">00</span>:<span class="seconds">00</span>
+            </p>
+            <div class="btn-groups">
+                <button class="btn btn-start">Start</button>
+                <button class="btn btn-stop">Stop</button>
+                <button class="btn btn-reset">Reset</button>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script>
+        let buttons = document.querySelector('.btn-groups');
+
+        let minutes = document.querySelector('.minutes');
+        let seconds = document.querySelector('.seconds');
+
+        let min = parseInt(minutes.textContent);
+        let sec = parseInt(seconds.textContent);
+
+        let interval;
+
+
+        let checkMinutes = ()=>{
+            if(min < 10)
+                minutes.textContent = '0' + min;
+            else
+                minutes.textContent = min;
+        }
+        let handleStartBtn = ()=>{
+            sec = parseInt(seconds.textContent) + 1;
+            
+            if(sec < 10)
+                seconds.textContent = '0' + sec;
+            else if(sec > 59){
+                min = parseInt(minutes.textContent) + 1;
+                checkMinutes();
+                seconds.textContent = '00';
+            }
+            else
+                seconds.textContent = sec;
+        }
+
+        let handleStopBtn = ()=>{
+            clearInterval(interval);
+        }
+
+        let handleResetBtn = ()=>{
+            clearInterval(interval);
+            minutes.textContent = '00';
+            seconds.textContent = '00';
+        }
+
+        buttons.addEventListener('click', (event) =>{
+            if(event.target.classList.contains('btn-start'))
+                interval = setInterval(handleStartBtn, 1000);
+            if(event.target.classList.contains('btn-stop'))
+                handleStopBtn();
+            if(event.target.classList.contains('btn-reset'))
+                handleResetBtn();
+        })
+    </script>
+</body>
+</html>
